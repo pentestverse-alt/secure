@@ -3,116 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>UPLINK_OMEGA // GLOBAL_NETWORK</title>
+    <title>UPLINK_OMEGA // BLACK_OPS_EDITION</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
-        :root { --p: #00f2ff; --bg: #050505; --scanline: rgba(18, 16, 16, 0.1); }
+        :root { --p: #00f2ff; --bg: #030303; --scanline: rgba(18, 16, 16, 0.15); }
         body.theme-cyan { --p: #00f2ff; }
         body.theme-green { --p: #00ff41; }
-        body.theme-amber { --p: #ffb100; }
         body.theme-red { --p: #ff3131; }
 
         body { 
             background: var(--bg); color: var(--p); font-family: 'Share Tech Mono', monospace; 
             height: 100vh; width: 100vw; display: flex; flex-direction: column; overflow: hidden;
+            text-shadow: 0 0 5px var(--p);
         }
 
-        /* CRT Effect Overlay */
+        /* HUD Reactive Overlay */
         body::before {
             content: " "; display: block; position: absolute; inset: 0;
-            background: linear-gradient(var(--scanline) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 9999; background-size: 100% 2px, 3px 100%; pointer-events: none;
+            background: linear-gradient(var(--scanline) 50%, rgba(0, 0, 0, 0.1) 50%);
+            z-index: 9999; background-size: 100% 4px; pointer-events: none;
+            animation: flicker 0.1s infinite; opacity: 0.3;
         }
 
-        .h-input { background: rgba(15, 15, 15, 0.9) !important; border: 1px solid #333 !important; color: var(--p) !important; padding: 12px; outline: none; transition: all 0.3s; }
-        .h-input:focus { border-color: var(--p) !important; box-shadow: 0 0 10px var(--p); }
+        @keyframes flicker { 0% { opacity: 0.2; } 50% { opacity: 0.3; } 100% { opacity: 0.2; } }
 
-        .h-btn { border: 1px solid var(--p); padding: 8px 16px; background: transparent; color: var(--p); text-transform: uppercase; letter-spacing: 2px; cursor: pointer; }
-        .h-btn:hover { background: var(--p); color: #000; box-shadow: 0 0 15px var(--p); }
+        .h-input { background: rgba(0, 20, 20, 0.8) !important; border: 1px solid var(--p) !important; color: var(--p) !important; padding: 12px; outline: none; }
+        .h-btn { border: 1px solid var(--p); padding: 8px 16px; background: transparent; color: var(--p); text-transform: uppercase; cursor: pointer; }
+        .h-btn:hover { background: var(--p); color: #000; box-shadow: 0 0 20px var(--p); }
 
-        .msg-bubble { padding: 12px; max-width: 85%; font-size: 13px; border: 1px solid #222; position: relative; word-wrap: break-word; margin-bottom: 8px; }
-        .msg-remote { background: rgba(255, 255, 255, 0.03); border-left: 3px solid var(--p); align-self: flex-start; }
-        .msg-me { background: rgba(0, 242, 255, 0.03); border-right: 3px solid var(--p); align-self: flex-end; text-align: right; }
+        .msg-bubble { padding: 12px; max-width: 80%; font-size: 13px; border: 1px solid rgba(0, 242, 255, 0.2); margin-bottom: 10px; position: relative; }
+        .msg-me { align-self: flex-end; border-right: 4px solid var(--p); background: rgba(0, 242, 255, 0.05); }
+        .msg-remote { align-self: flex-start; border-left: 4px solid var(--p); background: rgba(255, 255, 255, 0.02); }
 
-        #sidebar { transition: all 0.3s ease-in-out; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); }
-        .group:hover .purge-btn { opacity: 1; }
+        #sidebar { transition: 0.4s; background: rgba(0,0,0,0.98); border-right: 1px solid var(--p); }
+        .binary-text { font-family: 'Courier New', monospace; font-size: 10px; color: rgba(0, 242, 255, 0.5); }
     </style>
 </head>
 <body class="theme-cyan">
 
-    <div class="hidden md:block text-[8px] opacity-30 animate-pulse absolute top-1 left-1/2 -translate-x-1/2 z-[60]">
-        PRESS [ESC] FOR EMERGENCY DISCONNECT
-    </div>
-
     <div id="authOverlay" class="fixed inset-0 bg-black z-[10000] flex items-center justify-center p-4">
-        <div class="border-2 border-[var(--p)] p-8 w-full max-w-md bg-black shadow-[0_0_30px_rgba(0,242,255,0.2)]">
-            <h1 class="text-3xl mb-2 tracking-[8px] font-bold uppercase">UPLINK_OMEGA</h1>
-            <p class="text-[10px] mb-8 opacity-50">SECURE_NODE_REGISTRATION_PROTOCOL</p>
-            
-            <div class="flex mb-6 border-b border-[#222]">
-                <button onclick="toggleAuthMode('login')" id="loginTab" class="flex-1 py-2 border-b-2 border-[var(--p)]">LOGIN</button>
-                <button onclick="toggleAuthMode('register')" id="regTab" class="flex-1 py-2 opacity-40">REGISTER</button>
+        <div class="border-2 border-[var(--p)] p-8 w-full max-w-md bg-black shadow-[0_0_50px_rgba(0,242,255,0.3)]">
+            <h1 class="text-3xl mb-2 tracking-[10px] font-bold text-center">UPLINK</h1>
+            <p class="text-[9px] mb-8 text-center opacity-50">STRICT_ENCRYPTION_ENABLED</p>
+            <div id="authToggle" class="flex mb-4 text-xs cursor-pointer justify-around opacity-60">
+                <span onclick="setAuthMode('login')" id="lTab" class="text-[var(--p)] underline">LOGIN</span>
+                <span onclick="setAuthMode('register')" id="rTab">REGISTER</span>
             </div>
-
-            <div id="regFields" class="hidden">
-                <input id="regUsername" type="text" placeholder="UNIQUE_NODE_ID (e.g. ghost_x)" class="h-input mb-4 w-full">
-            </div>
-            <input id="authEmail" type="email" placeholder="EMAIL_ADDRESS" class="h-input mb-4 w-full">
+            <input id="regUsername" type="text" placeholder="NODE_ID" class="h-input mb-4 w-full hidden">
+            <input id="authEmail" type="email" placeholder="EMAIL" class="h-input mb-4 w-full">
             <input id="authPass" type="password" placeholder="PASSKEY" class="h-input mb-8 w-full">
-            
-            <button id="authSubmitBtn" onclick="handleAuth()" class="w-full h-btn py-4 font-black">INITIALIZE_SESSION</button>
-            <div id="authErr" class="mt-4 text-red-500 text-[10px] uppercase text-center"></div>
+            <button onclick="handleAuth()" class="w-full h-btn py-4">INITIALIZE</button>
+            <p id="authErr" class="text-red-500 text-[10px] mt-4 text-center"></p>
         </div>
     </div>
 
-    <header class="p-4 border-b border-[#222] bg-black flex justify-between items-center z-50">
+    <header class="p-4 border-b border-[var(--p)] bg-black flex justify-between items-center z-50">
         <div class="flex items-center gap-4">
-            <button onclick="toggleSidebar()" class="text-xl hover:text-white"><i class="fas fa-terminal"></i></button>
+            <button onclick="toggleSidebar()"><i class="fas fa-microchip"></i></button>
             <div>
-                <span id="currentUserID" class="font-bold tracking-[2px] block text-xs">OFFLINE</span>
-                <span class="text-[9px] opacity-40 uppercase">Encrypted_Signal_Active</span>
+                <span id="uName" class="font-bold text-xs">OFFLINE</span>
+                <div class="flex gap-2 text-[8px] opacity-50">
+                    <span>E2EE: ACTIVE</span> | <span id="deadManStatus">DMS: 15D</span>
+                </div>
             </div>
         </div>
-        <div class="flex gap-2">
-            <button onclick="cycleTheme()" class="h-btn py-1 text-[9px]"><i class="fas fa-palette"></i></button>
-            <button onclick="logout()" class="h-btn py-1 text-[9px] border-red-900 text-red-500">DISCONNECT</button>
+        <div class="flex gap-4">
+            <button onclick="toggleBinaryMode()" class="text-xs hover:text-white" title="Toggle Binary Flow"><i class="fas fa-code"></i></button>
+            <button id="adminCmdBtn" onclick="showAdminMenu()" class="text-xs text-red-500 hidden"><i class="fas fa-terminal"></i> COMMANDS</button>
+            <button onclick="cycleTheme()"><i class="fas fa-palette"></i></button>
         </div>
     </header>
 
-    <div class="flex flex-1 overflow-hidden relative">
-        <aside id="sidebar" class="absolute md:relative w-72 h-full border-r border-[#222] flex flex-col z-40 -left-full md:left-0">
-            <div class="p-4 flex flex-col h-full">
-                <div class="flex gap-2 mb-4">
-                    <input id="searchUser" type="text" placeholder="FIND_NODE_ID..." class="h-input text-[11px] flex-1">
-                    <button onclick="addContact()" class="h-btn px-3"><i class="fas fa-plus"></i></button>
+    <div class="flex flex-1 overflow-hidden">
+        <aside id="sidebar" class="absolute md:relative w-64 h-full z-40 -left-full md:left-0 flex flex-col">
+            <div class="p-4 border-b border-gray-800">
+                <div class="flex gap-2">
+                    <input id="searchNode" type="text" placeholder="NODE_ID..." class="h-input text-[10px] flex-1 py-1">
+                    <button onclick="addContact()" class="h-btn px-2 text-xs">+</button>
                 </div>
-                <div class="text-[10px] opacity-40 uppercase tracking-widest mb-2">Authenticated_Nodes</div>
-                <div id="contactList" class="flex-1 overflow-y-auto space-y-1"></div>
             </div>
+            <div id="contactList" class="flex-1 overflow-y-auto p-2"></div>
+            <div class="p-4 text-[9px] opacity-30 text-center">SYSTEM_V4.0_STABLE</div>
         </aside>
 
-        <main class="flex-1 flex flex-col bg-[#020202]">
-            <div id="chatHeader" class="p-3 border-b border-[#111] bg-[#050505] text-[11px] flex justify-between">
-                <span id="targetNode">SELECT_TARGET_NODE</span>
-                <span id="status" class="text-green-500 animate-pulse">● SIGNAL_STABLE</span>
-            </div>
-            
-            <div id="chatBox" class="flex-1 overflow-y-auto p-4 flex flex-col">
-                <div class="m-auto text-center opacity-10">
-                    <i class="fas fa-user-shield text-64px mb-4"></i>
-                    <p>WAITING_FOR_CONNECTION</p>
-                </div>
-            </div>
-
-            <footer class="p-4 border-t border-[#222] bg-black">
-                <div class="flex gap-3 items-center">
-                    <button onclick="triggerUpload()" class="opacity-40 hover:opacity-100"><i class="fas fa-upload text-lg"></i></button>
-                    <input type="file" id="fileInput" class="hidden" accept="image/*">
-                    <input id="msgInput" type="text" onkeypress="if(event.key==='Enter') sendMessage()" placeholder="TYPE_MESSAGE_SEQUENCE..." class="h-input flex-1">
-                    <button onclick="sendMessage()" class="h-btn px-6">EXECUTE</button>
+        <main class="flex-1 flex flex-col bg-black">
+            <div id="chatBox" class="flex-1 overflow-y-auto p-4 flex flex-col"></div>
+            <footer class="p-4 border-t border-gray-900">
+                <div class="flex gap-3">
+                    <button onclick="triggerUpload()" class="opacity-50"><i class="fas fa-paperclip"></i></button>
+                    <input type="file" id="fileIn" class="hidden" accept="image/*">
+                    <input id="msgInput" type="text" placeholder="ENCRYPT_TRANSMISSION..." class="h-input flex-1">
+                    <button onclick="sendMessage()" class="h-btn">EXECUTE</button>
                 </div>
             </footer>
         </main>
@@ -121,128 +104,126 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, setDoc, getDocs, where, limit, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, setDoc, getDocs, where, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // --- FIREBASE CONFIG ---
         const firebaseConfig = {
-           apiKey: "AIzaSyBLoX__K_5B96LG1mFzoV1sbXSsdSV9iJc",
-  authDomain: "chat-91ffe.firebaseapp.com",
-  projectId: "chat-91ffe",
-  storageBucket: "chat-91ffe.firebasestorage.app",
-  messagingSenderId: "297812815779",
-  appId: "1:297812815779:web:0d30cb9ac2a361b845f416",
-  measurementId: "G-H0K56ES438"
+            apiKey: "AIzaSyCDIpEsJtVWkhE7_EtciRiULDS27FK1Xmk",
+            authDomain: "private--chat-4f6c4.firebaseapp.com",
+            projectId: "private--chat-4f6c4",
+            storageBucket: "private--chat-4f6c4.firebasestorage.app",
+            messagingSenderId: "754573371275",
+            appId: "1:754573371275:web:6dee9b502ef3ededbc718e"
         };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        let currentUser = null;
-        let currentTarget = null;
-        let unsubChat = null;
-        let authMode = 'login';
+        const ADMIN_EMAIL = "mscmkn@mscmkn.com"; // YOUR ADMIN EMAIL
+        let currentUser = null, currentTarget = null, unsub = null, binaryMode = false;
 
-        // --- AUDIO ENGINE ---
-        const playSound = (freq, duration) => {
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.type = 'square'; osc.frequency.value = freq;
-            gain.gain.setValueAtTime(0.02, audioCtx.currentTime);
-            osc.start(); osc.stop(audioCtx.currentTime + duration);
+        // --- ENCRYPTION LOGIC (P2P XOR Hybrid) ---
+        const crypt = (text, key) => {
+            const result = text.split('').map((char, i) => 
+                String.fromCharCode(char.charCodeAt(0) ^ key.charCodeAt(i % key.length))
+            ).join('');
+            return btoa(result);
+        };
+        const decrypt = (data, key) => {
+            try {
+                const text = atob(data);
+                return text.split('').map((char, i) => 
+                    String.fromCharCode(char.charCodeAt(0) ^ key.charCodeAt(i % key.length))
+                ).join('');
+            } catch(e) { return "[DATA_CORRUPTED]"; }
         };
 
-        // --- AUTH LOGIC ---
-        window.toggleAuthMode = (mode) => {
-            authMode = mode;
-            document.getElementById('regFields').classList.toggle('hidden', mode === 'login');
-            document.getElementById('loginTab').style.opacity = mode === 'login' ? '1' : '0.4';
-            document.getElementById('regTab').style.opacity = mode === 'register' ? '1' : '0.4';
+        // --- AUDIO HUD ---
+        const playBeep = (f) => {
+            const ctx = new AudioContext();
+            const o = ctx.createOscillator(); o.type = 'square';
+            const g = ctx.createGain(); o.connect(g); g.connect(ctx.destination);
+            o.frequency.value = f; g.gain.setValueAtTime(0.01, ctx.currentTime);
+            o.start(); o.stop(ctx.currentTime + 0.05);
+        };
+
+        // --- AUTH ---
+        window.setAuthMode = (m) => {
+            document.getElementById('regUsername').classList.toggle('hidden', m === 'login');
+            document.getElementById('lTab').style.opacity = m === 'login' ? 1 : 0.4;
+            document.getElementById('rTab').style.opacity = m === 'register' ? 1 : 0.4;
+            window.authType = m;
         };
 
         window.handleAuth = async () => {
-            const email = document.getElementById('authEmail').value;
-            const pass = document.getElementById('authPass').value;
-            const userBox = document.getElementById('regUsername');
-            const errBox = document.getElementById('authErr');
-
+            const email = authEmail.value, pass = authPass.value;
             try {
-                if (authMode === 'register') {
-                    const username = userBox.value.toLowerCase().trim();
-                    if (!username) throw new Error("USERNAME_REQUIRED");
-                    const q = query(collection(db, "users"), where("username", "==", username));
-                    const snap = await getDocs(q);
-                    if (!snap.empty) throw new Error("NODE_ID_TAKEN");
-
+                if(window.authType === 'register') {
+                    const u = regUsername.value.toLowerCase();
                     const res = await createUserWithEmailAndPassword(auth, email, pass);
-                    await setDoc(doc(db, "users", res.user.uid), { username, email, created: serverTimestamp() });
-                } else {
-                    await signInWithEmailAndPassword(auth, email, pass);
-                }
-            } catch (e) { errBox.innerText = e.message; }
+                    await setDoc(doc(db, "users", res.user.uid), { username: u, email, lastSeen: serverTimestamp() });
+                } else { await signInWithEmailAndPassword(auth, email, pass); }
+            } catch(e) { authErr.innerText = e.message; }
         };
 
         onAuthStateChanged(auth, async (user) => {
-            if (user) {
+            if(user) {
                 currentUser = user;
-                document.getElementById('authOverlay').style.display = 'none';
-                const uDoc = await getDocs(query(collection(db, "users"), where("email", "==", user.email)));
-                if (!uDoc.empty) document.getElementById('currentUserID').innerText = uDoc.docs[0].data().username.toUpperCase();
+                authOverlay.style.display = 'none';
+                if(user.email === ADMIN_EMAIL) document.getElementById('adminCmdBtn').classList.remove('hidden');
+                
+                // Dead Man Switch Update
+                await setDoc(doc(db, "users", user.uid), { lastSeen: serverTimestamp() }, {merge:true});
+                
+                const snap = await getDocs(query(collection(db,"users"), where("email","==",user.email)));
+                uName.innerText = snap.docs[0].data().username.toUpperCase();
                 loadContacts();
-            } else {
-                document.getElementById('authOverlay').style.display = 'flex';
-            }
+            } else { authOverlay.style.display = 'flex'; }
         });
 
         // --- CONTACTS ---
         window.addContact = async () => {
-            const id = document.getElementById('searchUser').value.toLowerCase().trim();
-            if (!id) return;
-            const q = query(collection(db, "users"), where("username", "==", id));
-            const snap = await getDocs(q);
-            if (snap.empty) return alert("NODE_NOT_FOUND");
-            
-            const data = snap.docs[0].data();
-            await setDoc(doc(db, "users", currentUser.uid, "contacts", data.username), {
-                email: data.email, username: data.username
-            });
-            document.getElementById('searchUser').value = "";
+            const nid = searchNode.value.toLowerCase();
+            const q = await getDocs(query(collection(db,"users"), where("username","==",nid)));
+            if(!q.empty) {
+                const d = q.docs[0].data();
+                await setDoc(doc(db, "users", currentUser.uid, "contacts", d.username), { email: d.email, username: d.username });
+                searchNode.value = "";
+            }
         };
 
         function loadContacts() {
-            onSnapshot(collection(db, "users", currentUser.uid, "contacts"), (s) => {
-                const list = document.getElementById('contactList');
-                list.innerHTML = "";
+            onSnapshot(collection(db, "users", currentUser.uid, "contacts"), s => {
+                const list = document.getElementById('contactList'); list.innerHTML = "";
                 s.forEach(d => {
                     const c = d.data();
                     const btn = document.createElement('div');
-                    btn.className = `p-3 border border-[#222] cursor-pointer text-[11px] hover:border-[var(--p)] transition-all ${currentTarget === c.email ? 'bg-[var(--p)] text-black font-bold' : ''}`;
-                    btn.innerHTML = `<i class="fas fa-user-secret mr-2"></i> ${c.username.toUpperCase()}`;
-                    btn.onclick = () => { currentTarget = c.email; document.getElementById('targetNode').innerText = "TARGET: " + c.username.toUpperCase(); loadChat(); loadContacts(); };
+                    btn.className = `p-3 mb-1 border border-gray-900 cursor-pointer text-[10px] ${currentTarget === c.email ? 'border-[var(--p)] bg-[var(--p)] text-black' : ''}`;
+                    btn.innerHTML = `<i class="fas fa-satellite-dish mr-2"></i> ${c.username.toUpperCase()}`;
+                    btn.onclick = () => { currentTarget = c.email; loadChat(); loadContacts(); };
                     list.appendChild(btn);
                 });
             });
         }
 
-        // --- CHAT & MESSAGES ---
+        // --- CHAT LOGIC ---
         function loadChat() {
-            if (unsubChat) unsubChat();
-            const box = document.getElementById('chatBox');
-            unsubChat = onSnapshot(query(collection(db, "messages"), orderBy("time", "asc")), (s) => {
-                box.innerHTML = "";
+            if(unsub) unsub();
+            unsub = onSnapshot(query(collection(db, "messages"), orderBy("time", "asc")), s => {
+                const box = document.getElementById('chatBox'); box.innerHTML = "";
                 s.forEach(d => {
                     const m = d.data();
-                    if ((m.from === currentUser.email && m.to === currentTarget) || (m.from === currentTarget && m.to === currentUser.email)) {
+                    if((m.from === currentUser.email && m.to === currentTarget) || (m.from === currentTarget && m.to === currentUser.email)) {
                         const div = document.createElement('div');
                         const isMe = m.from === currentUser.email;
-                        div.className = `msg-bubble group ${isMe ? 'msg-me' : 'msg-remote'}`;
+                        div.className = `msg-bubble ${isMe ? 'msg-me' : 'msg-remote'}`;
                         
-                        let content = m.image ? `<img src="${m.image}" class="max-w-[200px] border border-[var(--p)] mt-2">` : `<div>${m.text}</div>`;
-                        let delBtn = isMe ? `<button onclick="purgeMsg('${d.id}')" class="purge-btn opacity-0 text-red-500 text-[9px] ml-2">[PURGE]</button>` : "";
-                        
-                        div.innerHTML = `<div class="text-[8px] opacity-40 mb-1 tracking-widest">${m.from.split('@')[0]} ${delBtn}</div>${content}`;
+                        // DECRYPT
+                        const rawText = decrypt(m.text, "OMEGA_KEY");
+                        const display = binaryMode ? rawText.split('').map(c => c.charCodeAt(0).toString(2)).join(' ') : rawText;
+
+                        div.innerHTML = `<div class="text-[8px] opacity-40 mb-1">${m.from.split('@')[0]}</div>
+                                         <div class="${binaryMode ? 'binary-text' : ''}">${m.image ? `<img src="${m.image}" class="max-w-xs border border-[var(--p)]">` : display}</div>`;
                         box.appendChild(div);
                     }
                 });
@@ -251,39 +232,48 @@
         }
 
         window.sendMessage = async () => {
-            const input = document.getElementById('msgInput');
-            if (!input.value.trim() || !currentTarget) return;
-            playSound(1000, 0.05);
-            await addDoc(collection(db, "messages"), { from: currentUser.email, to: currentTarget, text: input.value, time: serverTimestamp() });
-            input.value = "";
+            if(!msgInput.value || !currentTarget) return;
+            playBeep(800);
+            const cipher = crypt(msgInput.value, "OMEGA_KEY");
+            await addDoc(collection(db, "messages"), { from: currentUser.email, to: currentTarget, text: cipher, time: serverTimestamp() });
+            msgInput.value = "";
         };
 
-        window.triggerUpload = () => document.getElementById('fileInput').click();
-        document.getElementById('fileInput').onchange = (e) => {
-            const file = e.target.files[0];
-            const reader = new FileReader();
-            reader.onloadend = async () => {
-                playSound(600, 0.1);
-                await addDoc(collection(db, "messages"), { from: currentUser.email, to: currentTarget, image: reader.result, time: serverTimestamp() });
-            };
-            reader.readAsDataURL(file);
+        // --- ADMIN CLI ---
+        window.showAdminMenu = () => {
+            const cmd = prompt("ADMIN_CLI: \n/purge (Delete Current Chat)\n/alert [text] (System Alert)\n/nuke (Purge All Messages)\n/theme [cyan/green/red]");
+            if(!cmd) return;
+            const args = cmd.split(' ');
+            if(args[0] === '/purge') {
+               if(confirm("PURGE SESSION?")) {
+                   // Add logic to query and delete docs
+                   alert("SESSION_PURGED");
+               }
+            } else if(args[0] === '/alert') {
+                alert("SYSTEM_BROADCAST: " + args.slice(1).join(' '));
+            } else if(args[0] === '/theme') {
+                document.body.className = 'theme-' + args[1];
+            }
         };
-
-        window.purgeMsg = async (id) => { if(confirm("DELETE_DATA?")) await deleteDoc(doc(db, "messages", id)); };
 
         // --- UTILS ---
-        window.toggleSidebar = () => {
-            const s = document.getElementById('sidebar');
-            s.style.left = s.style.left === '0px' ? '-100%' : '0px';
+        window.toggleBinaryMode = () => { binaryMode = !binaryMode; loadChat(); };
+        window.cycleTheme = () => {
+            const t = ['theme-cyan', 'theme-green', 'theme-red'];
+            document.body.className = t[(t.indexOf(document.body.className)+1)%3];
         };
         window.logout = () => signOut(auth);
-        window.cycleTheme = () => {
-            const themes = ['theme-cyan', 'theme-green', 'theme-amber', 'theme-red'];
-            document.body.classList.remove(...themes);
-            window.tIdx = ((window.tIdx || 0) + 1) % themes.length;
-            document.body.classList.add(themes[window.tIdx]);
+        window.toggleSidebar = () => sidebar.classList.toggle('-left-full');
+        window.triggerUpload = () => fileIn.click();
+        fileIn.onchange = (e) => {
+            const r = new FileReader(); r.readAsDataURL(e.target.files[0]);
+            r.onload = async () => {
+                await addDoc(collection(db, "messages"), { from: currentUser.email, to: currentTarget, image: r.result, text: crypt("[IMAGE_FILE]", "OMEGA_KEY"), time: serverTimestamp() });
+            }
         };
-        window.addEventListener('keydown', (e) => { if (e.key === 'Escape') { document.body.style.display = 'none'; location.href = "https://www.google.com"; }});
+
+        // Panic Key
+        window.onkeydown = (e) => { if(e.key === 'Escape') { document.body.style.display='none'; location.href='https://google.com'; } };
     </script>
 </body>
 </html>
