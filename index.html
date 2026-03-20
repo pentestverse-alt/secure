@@ -1,279 +1,401 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>UPLINK_OMEGA // BLACK_OPS_EDITION</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    <style>
-        :root { --p: #00f2ff; --bg: #030303; --scanline: rgba(18, 16, 16, 0.15); }
-        body.theme-cyan { --p: #00f2ff; }
-        body.theme-green { --p: #00ff41; }
-        body.theme-red { --p: #ff3131; }
 
-        body { 
-            background: var(--bg); color: var(--p); font-family: 'Share Tech Mono', monospace; 
-            height: 100vh; width: 100vw; display: flex; flex-direction: column; overflow: hidden;
-            text-shadow: 0 0 5px var(--p);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        /* HUD Reactive Overlay */
-        body::before {
-            content: " "; display: block; position: absolute; inset: 0;
-            background: linear-gradient(var(--scanline) 50%, rgba(0, 0, 0, 0.1) 50%);
-            z-index: 9999; background-size: 100% 4px; pointer-events: none;
-            animation: flicker 0.1s infinite; opacity: 0.3;
-        }
+<title>Pentest Verse | Support the Cybersecurity Mission</title>
 
-        @keyframes flicker { 0% { opacity: 0.2; } 50% { opacity: 0.3; } 100% { opacity: 0.2; } }
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
 
-        .h-input { background: rgba(0, 20, 20, 0.8) !important; border: 1px solid var(--p) !important; color: var(--p) !important; padding: 12px; outline: none; }
-        .h-btn { border: 1px solid var(--p); padding: 8px 16px; background: transparent; color: var(--p); text-transform: uppercase; cursor: pointer; }
-        .h-btn:hover { background: var(--p); color: #000; box-shadow: 0 0 20px var(--p); }
+<style>
 
-        .msg-bubble { padding: 12px; max-width: 80%; font-size: 13px; border: 1px solid rgba(0, 242, 255, 0.2); margin-bottom: 10px; position: relative; }
-        .msg-me { align-self: flex-end; border-right: 4px solid var(--p); background: rgba(0, 242, 255, 0.05); }
-        .msg-remote { align-self: flex-start; border-left: 4px solid var(--p); background: rgba(255, 255, 255, 0.02); }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-        #sidebar { transition: 0.4s; background: rgba(0,0,0,0.98); border-right: 1px solid var(--p); }
-        .binary-text { font-family: 'Courier New', monospace; font-size: 10px; color: rgba(0, 242, 255, 0.5); }
-    </style>
+body{
+
+background:#0a0f1c;
+color:#e6eefc;
+
+font-family:'Space Grotesk',sans-serif;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+min-height:100vh;
+
+padding:40px;
+
+}
+
+/* MAIN CONTAINER */
+
+.container{
+
+max-width:900px;
+width:100%;
+
+background:rgba(255,255,255,0.03);
+
+border:1px solid rgba(255,255,255,0.08);
+
+backdrop-filter:blur(12px);
+
+border-radius:16px;
+
+padding:60px;
+
+text-align:center;
+
+}
+
+/* CHANNEL NAME */
+
+.brand{
+
+font-family:'Orbitron',sans-serif;
+
+font-size:18px;
+
+letter-spacing:2px;
+
+color:#00eaff;
+
+margin-bottom:15px;
+
+}
+
+/* TITLE */
+
+h1{
+
+font-family:'Orbitron',sans-serif;
+
+font-size:42px;
+
+background:linear-gradient(90deg,#00eaff,#ff2bd6);
+
+-webkit-background-clip:text;
+color:transparent;
+
+margin-bottom:20px;
+
+}
+
+/* PARAGRAPH */
+
+.desc{
+
+font-size:18px;
+
+line-height:1.8;
+
+color:#a9b7d0;
+
+max-width:620px;
+
+margin:auto;
+
+margin-bottom:50px;
+
+}
+
+/* TIERS */
+
+.tiers{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
+gap:20px;
+
+margin-bottom:50px;
+
+}
+
+.tier{
+
+padding:25px;
+
+background:#111827;
+
+border-radius:12px;
+
+border:1px solid rgba(255,255,255,0.06);
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+.tier:hover{
+
+transform:translateY(-6px);
+
+border-color:#00eaff;
+
+box-shadow:0 0 18px rgba(0,234,255,.5);
+
+}
+
+.selected{
+
+border-color:#ff2bd6;
+
+box-shadow:0 0 18px rgba(255,43,214,.6);
+
+}
+
+.tier h3{
+
+font-weight:500;
+
+margin-bottom:8px;
+
+}
+
+.price{
+
+color:#00eaff;
+
+font-size:22px;
+
+}
+
+/* QR */
+
+.qr{
+
+width:220px;
+height:220px;
+
+margin:auto;
+
+background:#020406;
+
+border-radius:12px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+margin-bottom:30px;
+
+}
+
+.qr img{
+width:100%;
+}
+
+/* BUTTON */
+
+button{
+
+padding:16px 45px;
+
+font-family:'Orbitron',sans-serif;
+
+border:none;
+
+border-radius:10px;
+
+background:linear-gradient(90deg,#00eaff,#ff2bd6);
+
+color:#0a0f1c;
+
+font-size:15px;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+button:hover{
+
+transform:scale(1.07);
+
+box-shadow:0 0 25px rgba(0,234,255,.7);
+
+}
+
+/* RECOGNITION */
+
+.recognition{
+
+margin-top:50px;
+
+padding:30px;
+
+background:#0f1626;
+
+border:1px solid rgba(255,255,255,0.07);
+
+border-radius:12px;
+
+}
+
+.recognition h2{
+
+font-family:'Orbitron',sans-serif;
+
+margin-bottom:12px;
+
+color:#00eaff;
+
+}
+
+.recognition p{
+
+color:#a9b7d0;
+
+line-height:1.6;
+
+}
+
+.note{
+
+font-size:13px;
+
+margin-top:10px;
+
+color:#7a8793;
+
+}
+
+/* DISCLAIMER */
+
+.disclaimer{
+
+margin-top:35px;
+
+font-size:13px;
+
+color:#7a8793;
+
+font-family:'JetBrains Mono',monospace;
+
+}
+
+</style>
 </head>
-<body class="theme-cyan">
 
-    <div id="authOverlay" class="fixed inset-0 bg-black z-[10000] flex items-center justify-center p-4">
-        <div class="border-2 border-[var(--p)] p-8 w-full max-w-md bg-black shadow-[0_0_50px_rgba(0,242,255,0.3)]">
-            <h1 class="text-3xl mb-2 tracking-[10px] font-bold text-center">UPLINK</h1>
-            <p class="text-[9px] mb-8 text-center opacity-50">STRICT_ENCRYPTION_ENABLED</p>
-            <div id="authToggle" class="flex mb-4 text-xs cursor-pointer justify-around opacity-60">
-                <span onclick="setAuthMode('login')" id="lTab" class="text-[var(--p)] underline">LOGIN</span>
-                <span onclick="setAuthMode('register')" id="rTab">REGISTER</span>
-            </div>
-            <input id="regUsername" type="text" placeholder="NODE_ID" class="h-input mb-4 w-full hidden">
-            <input id="authEmail" type="email" placeholder="EMAIL" class="h-input mb-4 w-full">
-            <input id="authPass" type="password" placeholder="PASSKEY" class="h-input mb-8 w-full">
-            <button onclick="handleAuth()" class="w-full h-btn py-4">INITIALIZE</button>
-            <p id="authErr" class="text-red-500 text-[10px] mt-4 text-center"></p>
-        </div>
-    </div>
+<body>
 
-    <header class="p-4 border-b border-[var(--p)] bg-black flex justify-between items-center z-50">
-        <div class="flex items-center gap-4">
-            <button onclick="toggleSidebar()"><i class="fas fa-microchip"></i></button>
-            <div>
-                <span id="uName" class="font-bold text-xs">OFFLINE</span>
-                <div class="flex gap-2 text-[8px] opacity-50">
-                    <span>E2EE: ACTIVE</span> | <span id="deadManStatus">DMS: 15D</span>
-                </div>
-            </div>
-        </div>
-        <div class="flex gap-4">
-            <button onclick="toggleBinaryMode()" class="text-xs hover:text-white" title="Toggle Binary Flow"><i class="fas fa-code"></i></button>
-            <button id="adminCmdBtn" onclick="showAdminMenu()" class="text-xs text-red-500 hidden"><i class="fas fa-terminal"></i> COMMANDS</button>
-            <button onclick="cycleTheme()"><i class="fas fa-palette"></i></button>
-        </div>
-    </header>
+<div class="container">
 
-    <div class="flex flex-1 overflow-hidden">
-        <aside id="sidebar" class="absolute md:relative w-64 h-full z-40 -left-full md:left-0 flex flex-col">
-            <div class="p-4 border-b border-gray-800">
-                <div class="flex gap-2">
-                    <input id="searchNode" type="text" placeholder="NODE_ID..." class="h-input text-[10px] flex-1 py-1">
-                    <button onclick="addContact()" class="h-btn px-2 text-xs">+</button>
-                </div>
-            </div>
-            <div id="contactList" class="flex-1 overflow-y-auto p-2"></div>
-            <div class="p-4 text-[9px] opacity-30 text-center">SYSTEM_V4.0_STABLE</div>
-        </aside>
+<div class="brand">PENTEST VERSE</div>
 
-        <main class="flex-1 flex flex-col bg-black">
-            <div id="chatBox" class="flex-1 overflow-y-auto p-4 flex flex-col"></div>
-            <footer class="p-4 border-t border-gray-900">
-                <div class="flex gap-3">
-                    <button onclick="triggerUpload()" class="opacity-50"><i class="fas fa-paperclip"></i></button>
-                    <input type="file" id="fileIn" class="hidden" accept="image/*">
-                    <input id="msgInput" type="text" placeholder="ENCRYPT_TRANSMISSION..." class="h-input flex-1">
-                    <button onclick="sendMessage()" class="h-btn">EXECUTE</button>
-                </div>
-            </footer>
-        </main>
-    </div>
+<h1>Support the Free Cybersecurity Mission</h1>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, setDoc, getDocs, where, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+<p class="desc">
+Pentest Verse is building a complete cybersecurity course that will remain
+100% free for students. No subscriptions. No locked lessons. No paywalls.
+If you believe cybersecurity knowledge should be accessible to everyone,
+you may voluntarily support the mission.
+</p>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyCDIpEsJtVWkhE7_EtciRiULDS27FK1Xmk",
-            authDomain: "private--chat-4f6c4.firebaseapp.com",
-            projectId: "private--chat-4f6c4",
-            storageBucket: "private--chat-4f6c4.firebasestorage.app",
-            messagingSenderId: "754573371275",
-            appId: "1:754573371275:web:6dee9b502ef3ededbc718e"
-        };
+<div class="tiers">
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+<div class="tier" onclick="selectAmount(49,this)">
+<h3>Tea Support</h3>
+<div class="price">₹49</div>
+</div>
 
-        const ADMIN_EMAIL = "mscmkn@mscmkn.com"; // YOUR ADMIN EMAIL
-        let currentUser = null, currentTarget = null, unsub = null, binaryMode = false;
+<div class="tier" onclick="selectAmount(149,this)">
+<h3>Pizza Support</h3>
+<div class="price">₹149</div>
+</div>
 
-        // --- ENCRYPTION LOGIC (P2P XOR Hybrid) ---
-        const crypt = (text, key) => {
-            const result = text.split('').map((char, i) => 
-                String.fromCharCode(char.charCodeAt(0) ^ key.charCodeAt(i % key.length))
-            ).join('');
-            return btoa(result);
-        };
-        const decrypt = (data, key) => {
-            try {
-                const text = atob(data);
-                return text.split('').map((char, i) => 
-                    String.fromCharCode(char.charCodeAt(0) ^ key.charCodeAt(i % key.length))
-                ).join('');
-            } catch(e) { return "[DATA_CORRUPTED]"; }
-        };
+<div class="tier" onclick="selectAmount(499,this)">
+<h3>Lab Support</h3>
+<div class="price">₹499</div>
+</div>
 
-        // --- AUDIO HUD ---
-        const playBeep = (f) => {
-            const ctx = new AudioContext();
-            const o = ctx.createOscillator(); o.type = 'square';
-            const g = ctx.createGain(); o.connect(g); g.connect(ctx.destination);
-            o.frequency.value = f; g.gain.setValueAtTime(0.01, ctx.currentTime);
-            o.start(); o.stop(ctx.currentTime + 0.05);
-        };
+<div class="tier" onclick="selectAmount(999,this)">
+<h3>Cyber Warrior</h3>
+<div class="price">₹999+</div>
+</div>
 
-        // --- AUTH ---
-        window.setAuthMode = (m) => {
-            document.getElementById('regUsername').classList.toggle('hidden', m === 'login');
-            document.getElementById('lTab').style.opacity = m === 'login' ? 1 : 0.4;
-            document.getElementById('rTab').style.opacity = m === 'register' ? 1 : 0.4;
-            window.authType = m;
-        };
+</div>
 
-        window.handleAuth = async () => {
-            const email = authEmail.value, pass = authPass.value;
-            try {
-                if(window.authType === 'register') {
-                    const u = regUsername.value.toLowerCase();
-                    const res = await createUserWithEmailAndPassword(auth, email, pass);
-                    await setDoc(doc(db, "users", res.user.uid), { username: u, email, lastSeen: serverTimestamp() });
-                } else { await signInWithEmailAndPassword(auth, email, pass); }
-            } catch(e) { authErr.innerText = e.message; }
-        };
+<div class="qr">
+<img id="qr">
+</div>
 
-        onAuthStateChanged(auth, async (user) => {
-            if(user) {
-                currentUser = user;
-                authOverlay.style.display = 'none';
-                if(user.email === ADMIN_EMAIL) document.getElementById('adminCmdBtn').classList.remove('hidden');
-                
-                // Dead Man Switch Update
-                await setDoc(doc(db, "users", user.uid), { lastSeen: serverTimestamp() }, {merge:true});
-                
-                const snap = await getDocs(query(collection(db,"users"), where("email","==",user.email)));
-                uName.innerText = snap.docs[0].data().username.toUpperCase();
-                loadContacts();
-            } else { authOverlay.style.display = 'flex'; }
-        });
+<button onclick="pay()">SUPPORT VIA UPI</button>
 
-        // --- CONTACTS ---
-        window.addContact = async () => {
-            const nid = searchNode.value.toLowerCase();
-            const q = await getDocs(query(collection(db,"users"), where("username","==",nid)));
-            if(!q.empty) {
-                const d = q.docs[0].data();
-                await setDoc(doc(db, "users", currentUser.uid, "contacts", d.username), { email: d.email, username: d.username });
-                searchNode.value = "";
-            }
-        };
+<div class="recognition">
 
-        function loadContacts() {
-            onSnapshot(collection(db, "users", currentUser.uid, "contacts"), s => {
-                const list = document.getElementById('contactList'); list.innerHTML = "";
-                s.forEach(d => {
-                    const c = d.data();
-                    const btn = document.createElement('div');
-                    btn.className = `p-3 mb-1 border border-gray-900 cursor-pointer text-[10px] ${currentTarget === c.email ? 'border-[var(--p)] bg-[var(--p)] text-black' : ''}`;
-                    btn.innerHTML = `<i class="fas fa-satellite-dish mr-2"></i> ${c.username.toUpperCase()}`;
-                    btn.onclick = () => { currentTarget = c.email; loadChat(); loadContacts(); };
-                    list.appendChild(btn);
-                });
-            });
-        }
+<h2>Cyber Warrior Recognition</h2>
 
-        // --- CHAT LOGIC ---
-        function loadChat() {
-            if(unsub) unsub();
-            unsub = onSnapshot(query(collection(db, "messages"), orderBy("time", "asc")), s => {
-                const box = document.getElementById('chatBox'); box.innerHTML = "";
-                s.forEach(d => {
-                    const m = d.data();
-                    if((m.from === currentUser.email && m.to === currentTarget) || (m.from === currentTarget && m.to === currentUser.email)) {
-                        const div = document.createElement('div');
-                        const isMe = m.from === currentUser.email;
-                        div.className = `msg-bubble ${isMe ? 'msg-me' : 'msg-remote'}`;
-                        
-                        // DECRYPT
-                        const rawText = decrypt(m.text, "OMEGA_KEY");
-                        const display = binaryMode ? rawText.split('').map(c => c.charCodeAt(0).toString(2)).join(' ') : rawText;
+<p>
+Supporters who contribute at the <b>Cyber Warrior level (₹999+)</b> may choose
+to have their name featured in the Pentest Verse supporters list and may be
+acknowledged in future YouTube videos.
+</p>
 
-                        div.innerHTML = `<div class="text-[8px] opacity-40 mb-1">${m.from.split('@')[0]}</div>
-                                         <div class="${binaryMode ? 'binary-text' : ''}">${m.image ? `<img src="${m.image}" class="max-w-xs border border-[var(--p)]">` : display}</div>`;
-                        box.appendChild(div);
-                    }
-                });
-                box.scrollTo(0, box.scrollHeight);
-            });
-        }
+<p class="note">
+Recognition is optional. Supporters may remain anonymous if they prefer.
+</p>
 
-        window.sendMessage = async () => {
-            if(!msgInput.value || !currentTarget) return;
-            playBeep(800);
-            const cipher = crypt(msgInput.value, "OMEGA_KEY");
-            await addDoc(collection(db, "messages"), { from: currentUser.email, to: currentTarget, text: cipher, time: serverTimestamp() });
-            msgInput.value = "";
-        };
+</div>
 
-        // --- ADMIN CLI ---
-        window.showAdminMenu = () => {
-            const cmd = prompt("ADMIN_CLI: \n/purge (Delete Current Chat)\n/alert [text] (System Alert)\n/nuke (Purge All Messages)\n/theme [cyan/green/red]");
-            if(!cmd) return;
-            const args = cmd.split(' ');
-            if(args[0] === '/purge') {
-               if(confirm("PURGE SESSION?")) {
-                   // Add logic to query and delete docs
-                   alert("SESSION_PURGED");
-               }
-            } else if(args[0] === '/alert') {
-                alert("SYSTEM_BROADCAST: " + args.slice(1).join(' '));
-            } else if(args[0] === '/theme') {
-                document.body.className = 'theme-' + args[1];
-            }
-        };
+<div class="disclaimer">
+100% voluntary support. No product is being sold.
+</div>
 
-        // --- UTILS ---
-        window.toggleBinaryMode = () => { binaryMode = !binaryMode; loadChat(); };
-        window.cycleTheme = () => {
-            const t = ['theme-cyan', 'theme-green', 'theme-red'];
-            document.body.className = t[(t.indexOf(document.body.className)+1)%3];
-        };
-        window.logout = () => signOut(auth);
-        window.toggleSidebar = () => sidebar.classList.toggle('-left-full');
-        window.triggerUpload = () => fileIn.click();
-        fileIn.onchange = (e) => {
-            const r = new FileReader(); r.readAsDataURL(e.target.files[0]);
-            r.onload = async () => {
-                await addDoc(collection(db, "messages"), { from: currentUser.email, to: currentTarget, image: r.result, text: crypt("[IMAGE_FILE]", "OMEGA_KEY"), time: serverTimestamp() });
-            }
-        };
+</div>
 
-        // Panic Key
-        window.onkeydown = (e) => { if(e.key === 'Escape') { document.body.style.display='none'; location.href='https://google.com'; } };
-    </script>
+<script>
+
+let amount=null
+
+function selectAmount(a,el){
+
+amount=a
+
+document.querySelectorAll(".tier").forEach(t=>{
+t.classList.remove("selected")
+})
+
+el.classList.add("selected")
+
+generateQR()
+
+}
+
+function generateQR(){
+
+let upi="upi://pay?pa=8905108389@ibl&pn=PentestVerse&am="+amount+"&cu=INR"
+
+document.getElementById("qr").src=
+"https://api.qrserver.com/v1/create-qr-code/?size=220x220&data="+encodeURIComponent(upi)
+
+}
+
+function pay(){
+
+if(!amount){
+alert("Select support tier")
+return
+}
+
+let upi="upi://pay?pa=8905108389@ibl&pn=PentestVerse&am="+amount+"&cu=INR"
+
+window.location.href=upi
+
+}
+
+</script>
+
 </body>
 </html>
